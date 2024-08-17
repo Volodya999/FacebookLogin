@@ -44,8 +44,6 @@ namespace Facebook
                 images.InsertImages(Id,path);
                 MessageBox.Show("Uploaded");
             }
-            
-
         }
 
         private void showimage_button_Click(object sender, EventArgs e)
