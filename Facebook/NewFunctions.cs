@@ -16,10 +16,11 @@ namespace Facebook
 
     public partial class NewFunctions : Form
     {
-       
-        public int Id {  get; set; }
+
+        public int Id { get; set; }
+        Posts post = new Posts();
         public string useremail { get; set; }
-        
+
         public NewFunctions()
         {
             InitializeComponent();
@@ -28,12 +29,14 @@ namespace Facebook
         private void NewFunctions_Load(object sender, EventArgs e)
         {
             NewUsers newUsers = new NewUsers();
-            DataTable dt =  new DataTable();
-            dt= newUsers.GetUserInfo(useremail);
+            DataTable dt = new DataTable();
+            dt = newUsers.GetUserInfo(useremail);
             FirstName_textBox.Text = dt.Rows[0][1].ToString();
-            LastName_textBox.Text= dt.Rows[0][2].ToString();
+            LastName_textBox.Text = dt.Rows[0][2].ToString();
             Email_textBox.Text = useremail;
             Id = Convert.ToInt32(dt.Rows[0][0].ToString());
+            post.userId = Id;
+           
         }
         private void Upload_button_Click(object sender, EventArgs e)
         {
@@ -41,7 +44,6 @@ namespace Facebook
             {
                 string path = openFileDialog1.FileName;
                 Images images = new Images();
-                images.InsertImages(Id,path);
                 MessageBox.Show("Uploaded");
             }
         }
@@ -59,7 +61,19 @@ namespace Facebook
 
                 MessageBox.Show("Unkonwn Error");
             }
-            
+
+        }
+
+        private void button_newpost_Click(object sender, EventArgs e)
+        {
+            post.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AddedPosts ap = new AddedPosts();
+            ap.Id = post.userId;
+            ap.ShowDialog();
         }
     }
 }

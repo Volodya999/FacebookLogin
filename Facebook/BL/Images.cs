@@ -22,18 +22,18 @@ namespace Facebook.BL
                 imgpath = dm.GetUserImages(imagesRepo);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception(ex.Message);
             }
             return imgpath;           
         }
-        public void InsertImages(int userid, string userimagepath)
+        public void InsertImages(int userid, string userimagepath, int postid)
         {
             try
             {
-               dm.InsertImages(userid, userimagepath);
+               dm.InsertImages(userid, userimagepath,postid);
             }
             catch (Exception ex)
             {

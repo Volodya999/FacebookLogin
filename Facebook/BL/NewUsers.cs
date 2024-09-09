@@ -46,7 +46,6 @@ namespace Facebook.BL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -74,7 +73,6 @@ namespace Facebook.BL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -88,7 +86,6 @@ namespace Facebook.BL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -100,7 +97,6 @@ namespace Facebook.BL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
 
@@ -119,7 +115,6 @@ namespace Facebook.BL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
             return user;
@@ -133,10 +128,9 @@ namespace Facebook.BL
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
-            return  dt;
+            return dt;
         }
     }
 }

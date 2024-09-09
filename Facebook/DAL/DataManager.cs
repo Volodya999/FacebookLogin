@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Facebook.DAL
 {
-    public class DataManager : INewUserRepo, IImagesRepo
+    public class DataManager : INewUserRepo, IImagesRepo, INewPostRepo
     {
         private readonly SqlConnection con;
         private readonly ILog logs = LogManager.GetLogger("Facebook");
@@ -65,7 +65,7 @@ namespace Facebook.DAL
                 logs.Info(ex.Message);
                 throw new Exception(ex.Message);
             }
-            
+
         }
         public DataTable GetBirthDay()
         {
@@ -73,7 +73,7 @@ namespace Facebook.DAL
             try
             {
                 SqlCommand cmd = new SqlCommand("GetBirthDay", con);
-                cmd.Connection = con;   
+                cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
                 DataTable dt = new DataTable();
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -104,7 +104,7 @@ namespace Facebook.DAL
 
                 throw new Exception(ex.Message);
             }
-           
+
         }
         public DataTable GetBirthMonth()
         {
@@ -113,7 +113,7 @@ namespace Facebook.DAL
             {
                 SqlCommand cmd = new SqlCommand("BirthMonth", con);
                 cmd.Connection = con;
-                cmd.CommandType= CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 DataTable dt = new DataTable();
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
@@ -133,7 +133,7 @@ namespace Facebook.DAL
                 cmd.Connection = con;
                 cmd.CommandType = CommandType.StoredProcedure;
                 DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter( cmd);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 return dt;
             }
@@ -159,11 +159,10 @@ namespace Facebook.DAL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
-        public DataTable GetBirthYear(string procname) 
+        public DataTable GetBirthYear(string procname)
         {
             try
             {
@@ -177,7 +176,6 @@ namespace Facebook.DAL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -196,7 +194,6 @@ namespace Facebook.DAL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -214,7 +211,6 @@ namespace Facebook.DAL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -229,10 +225,9 @@ namespace Facebook.DAL
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
-            
+
         }
         public string GetUserImages(ImagesRepo imagesRepo)
         {
@@ -257,31 +252,104 @@ namespace Facebook.DAL
                 SqlCommand com = new SqlCommand("GetUserInfo", con);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@useremail", useremail);
-                SqlDataAdapter adap =  new SqlDataAdapter(com);
+                SqlDataAdapter adap = new SqlDataAdapter(com);
                 adap.Fill(dt);
 
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
             return dt;
         }
-        public void InsertImages(int userid, string userimagepath)
+        public void InsertImages(int userid, string userimagepath, int postid)
         {
             try
             {
-                 Executewithparams("InsertImages",
-                    new SqlParameter("userid", userid),
-                    new SqlParameter("@userimagepath", userimagepath));
+                Executewithparams("InserImages",
+                   new SqlParameter("userid", userid),
+                   new SqlParameter("@userimagepath", userimagepath),
+                    new SqlParameter("@postid", postid));
             }
+
             catch (Exception ex)
             {
 
                 throw new Exception(ex.Message);
             }
         }
+
+        public int AddNewPost(NewPostRepo newPostRepo)
+        {
+            int postid = 0;
+            try
+            {
+                postid = ReturnValues("AddNewPost",
+                      new SqlParameter("@userid", newPostRepo.UserId),
+                     new SqlParameter("@title", newPostRepo.Title),
+                     new SqlParameter("@description", newPostRepo.Description),
+                     new SqlParameter("@datetime", newPostRepo.DateTime));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return postid;
+
+        }
+
+        public void InsertPostImages(int userid, string userimagepath, int postid)
+        {
+            try
+            {
+                Executewithparams("InsertPostImages",
+                    new SqlParameter("userid", userid),
+                    new SqlParameter("@postimgpath", userimagepath),
+                    new SqlParameter("postid", postid));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public DataTable GetPostInfo(int userid)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetPostInfo", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@userid", userid));
+                DataGridView dgv = new DataGridView();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+            return dt;
+        }
+        public DataTable GetPostImages(int postid)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlCommand com = new SqlCommand("GetPostImages", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@postid", postid);
+                SqlDataAdapter adap = new SqlDataAdapter(com);
+                adap.Fill(dt);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return dt;
+        }
+
         #endregion
         #region private functions
         private void Executewithparams(string procname, params SqlParameter[] parameters)
@@ -343,6 +411,7 @@ namespace Facebook.DAL
             cmd.Parameters.AddRange(parameters);
             cmd.ExecuteNonQuery();
         }
+
         #endregion
     }
 }

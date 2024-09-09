@@ -9,6 +9,6 @@ namespace Facebook.DAL
     interface IImagesRepo
     {
         public string GetUserImages(ImagesRepo imagesRepo);
-        public void InsertImages(int userid, string userimagepath);
+        public void InsertImages(int userid, string userimagepath, int postid);
     }
 }

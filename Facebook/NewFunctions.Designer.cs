@@ -39,6 +39,8 @@
             openFileDialog1 = new OpenFileDialog();
             Upload_button = new Button();
             showimage_button = new Button();
+            button_newpost = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -109,7 +111,7 @@
             // 
             // Upload_button
             // 
-            Upload_button.Location = new Point(626, 327);
+            Upload_button.Location = new Point(616, 154);
             Upload_button.Name = "Upload_button";
             Upload_button.Size = new Size(138, 58);
             Upload_button.TabIndex = 7;
@@ -119,7 +121,7 @@
             // 
             // showimage_button
             // 
-            showimage_button.Location = new Point(649, 154);
+            showimage_button.Location = new Point(639, 244);
             showimage_button.Name = "showimage_button";
             showimage_button.Size = new Size(115, 43);
             showimage_button.TabIndex = 8;
@@ -127,11 +129,33 @@
             showimage_button.UseVisualStyleBackColor = true;
             showimage_button.Click += showimage_button_Click;
             // 
+            // button_newpost
+            // 
+            button_newpost.Location = new Point(28, 154);
+            button_newpost.Name = "button_newpost";
+            button_newpost.Size = new Size(138, 58);
+            button_newpost.TabIndex = 9;
+            button_newpost.Text = "New Post";
+            button_newpost.UseVisualStyleBackColor = true;
+            button_newpost.Click += button_newpost_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(639, 316);
+            button1.Name = "button1";
+            button1.Size = new Size(115, 39);
+            button1.TabIndex = 10;
+            button1.Text = "MyPosts";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // NewFunctions
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
+            Controls.Add(button_newpost);
             Controls.Add(showimage_button);
             Controls.Add(Upload_button);
             Controls.Add(Email_textBox);
@@ -161,5 +185,7 @@
         private OpenFileDialog openFileDialog1;
         private Button Upload_button;
         private Button showimage_button;
+        private Button button_newpost;
+        private Button button1;
     }
 }
